@@ -68,6 +68,8 @@ html, body {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -82,6 +84,8 @@ body {
   line-height: 1.6;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 #root {
@@ -97,6 +101,8 @@ body {
               var(--bg-primary);
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 .main-container {
@@ -108,6 +114,8 @@ body {
   padding: var(--spacing-lg);
   width: 100%;
   gap: var(--spacing-md);
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 /* Header */
@@ -892,6 +900,43 @@ body {
   .main-container {
     padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
     padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom));
+  }
+}
+
+/* Native App Enhancements - Disable pull-to-refresh and other browser behaviors */
+@supports (-webkit-overflow-scrolling: touch) {
+  .app {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Prevent rubber band effect on iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 1) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Additional mobile native app enhancements */
+@media (max-width: 768px) {
+  html, body, .app, .main-container {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent pull-to-refresh on mobile */
+  body {
+    overflow-y: hidden;
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+  }
+  
+  .app {
+    overflow-y: auto;
+    height: 100vh;
+    position: relative;
   }
 }
 
