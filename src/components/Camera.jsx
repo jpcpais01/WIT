@@ -6,6 +6,7 @@ const Camera = ({ onCapture, disabled }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const [error, setError] = useState('');
+  const [videoAspectRatio, setVideoAspectRatio] = useState(4/3);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -111,11 +112,12 @@ const Camera = ({ onCapture, disabled }) => {
     }
   };
 
-  // Reset camera
+  // Reset camera (used internally when component resets)
   const resetCamera = () => {
     setCapturedImage(null);
     setError('');
     setVideoReady(false);
+    setVideoAspectRatio(4/3); // Reset to default aspect ratio
     if (stream) {
       stopCamera();
     }
@@ -150,7 +152,12 @@ const Camera = ({ onCapture, disabled }) => {
 
   return (
     <div className="camera-container">
-      <div className="camera-preview">
+      <div 
+        className="camera-preview"
+        style={{
+          aspectRatio: videoAspectRatio,
+        }}
+      >
         {capturedImage ? (
           <img src={capturedImage} alt="Captured" />
         ) : stream ? (
@@ -163,6 +170,12 @@ const Camera = ({ onCapture, disabled }) => {
               muted
               onLoadedMetadata={() => {
                 console.log('Video metadata loaded');
+                if (videoRef.current) {
+                  const { videoWidth, videoHeight } = videoRef.current;
+                  const aspectRatio = videoWidth / videoHeight;
+                  setVideoAspectRatio(aspectRatio);
+                  console.log(`Video aspect ratio: ${aspectRatio} (${videoWidth}x${videoHeight})`);
+                }
                 setVideoReady(true);
               }}
               onCanPlay={() => {
@@ -207,43 +220,24 @@ const Camera = ({ onCapture, disabled }) => {
         </div>
       )}
 
-      <div className="camera-controls">
-        {capturedImage ? (
-          <>
-            <button
-              className="camera-button"
-              onClick={resetCamera}
-              disabled={disabled}
-            >
-              Take Another
-            </button>
-            <button
-              className="camera-button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={disabled}
-            >
-              Upload New
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              className="camera-button primary"
-              onClick={capturePhoto}
-              disabled={disabled || !stream || !videoReady}
-            >
-              Take Photo
-            </button>
-            <button
-              className="camera-button"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={disabled}
-            >
-              Upload Photo
-            </button>
-          </>
-        )}
-      </div>
+      {!capturedImage && (
+        <div className="camera-controls">
+          <button
+            className="camera-button primary"
+            onClick={capturePhoto}
+            disabled={disabled || !stream || !videoReady}
+          >
+            Take Photo
+          </button>
+          <button
+            className="camera-button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={disabled}
+          >
+            Upload Photo
+          </button>
+        </div>
+      )}
     </div>
   );
 };
