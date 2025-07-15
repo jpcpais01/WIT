@@ -1,0 +1,33 @@
+{
+  "name": "What is This - Premium AI Object Identifier",
+  "short_name": "What is This",
+  "description": "Next-level AI object identification using your camera - Premium PWA experience",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a0a0a",
+  "background_color": "#0a0a0a",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["utilities", "productivity", "photo"],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+} 

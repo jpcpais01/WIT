@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Camera from './components/Camera';
 import AIResult from './components/AIResult';
 import { identifyObject } from './services/groqApi';
+import { usePWAInstall } from './hooks/usePWAInstall';
 import './styles/App.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [result, setResult] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { isInstallable, isInstalled, installPWA } = usePWAInstall();
 
   const handleImageCapture = (imageFile) => {
     setCapturedImage(imageFile);
@@ -54,6 +56,25 @@ function App() {
           <p className="app-subtitle">
             Next-level AI object identification using your camera
           </p>
+          
+          {/* PWA Install Button */}
+          {isInstallable && (
+            <div className="pwa-install-container">
+              <button
+                className="glass-button pwa-install-button"
+                onClick={installPWA}
+              >
+                📱 Install App
+              </button>
+            </div>
+          )}
+          
+          {isInstalled && (
+            <div className="pwa-installed-badge">
+              <span className="pwa-installed-icon">✅</span>
+              <span>App Installed</span>
+            </div>
+          )}
         </header>
 
         <Camera
