@@ -6,7 +6,7 @@ const Camera = ({ onCapture, disabled }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const [error, setError] = useState('');
-  const [videoAspectRatio, setVideoAspectRatio] = useState(4/3);
+  const [videoAspectRatio, setVideoAspectRatio] = useState(16/9);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -117,7 +117,7 @@ const Camera = ({ onCapture, disabled }) => {
     setCapturedImage(null);
     setError('');
     setVideoReady(false);
-    setVideoAspectRatio(4/3); // Reset to default aspect ratio
+    setVideoAspectRatio(16/9); // Reset to modern default aspect ratio
     if (stream) {
       stopCamera();
     }
@@ -172,9 +172,16 @@ const Camera = ({ onCapture, disabled }) => {
                 console.log('Video metadata loaded');
                 if (videoRef.current) {
                   const { videoWidth, videoHeight } = videoRef.current;
-                  const aspectRatio = videoWidth / videoHeight;
-                  setVideoAspectRatio(aspectRatio);
-                  console.log(`Video aspect ratio: ${aspectRatio} (${videoWidth}x${videoHeight})`);
+                  if (videoWidth && videoHeight) {
+                    const aspectRatio = videoWidth / videoHeight;
+                    // Ensure aspect ratio is reasonable (between 0.5 and 3.0)
+                    if (aspectRatio > 0.5 && aspectRatio < 3.0) {
+                      setVideoAspectRatio(aspectRatio);
+                      console.log(`Video aspect ratio: ${aspectRatio.toFixed(2)} (${videoWidth}x${videoHeight})`);
+                    } else {
+                      console.log(`Invalid aspect ratio ${aspectRatio}, keeping default 16:9`);
+                    }
+                  }
                 }
                 setVideoReady(true);
               }}
