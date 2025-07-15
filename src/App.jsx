@@ -59,7 +59,7 @@ function App() {
             className="glass-button pwa-install-button"
             onClick={installPWA}
           >
-            📱 Install App
+            Install App
           </button>
         </div>
 
@@ -75,7 +75,7 @@ function App() {
               type="text"
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
-              placeholder="Optional: Add context or ask a specific question about the image..."
+              placeholder="Optional: Add context or ask a specific question..."
               className="text-input"
               disabled={isLoading}
             />
@@ -92,7 +92,7 @@ function App() {
                     Analyzing...
                   </>
                 ) : (
-                  <>🔍 Identify Object</>
+                  <>Identify Object</>
                 )}
               </button>
 
@@ -101,7 +101,7 @@ function App() {
                 onClick={handleReset}
                 disabled={isLoading}
               >
-                🔄 Start Over
+                Start Over
               </button>
             </div>
           </div>

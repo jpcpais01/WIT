@@ -16,7 +16,7 @@ const Camera = ({ onCapture, disabled }) => {
       setError('');
       setIsLoading(true);
       
-            // Try different camera constraints for better compatibility
+      // Try different camera constraints for better compatibility
       let mediaStream;
       
       // Try with specific constraints first
@@ -54,7 +54,7 @@ const Camera = ({ onCapture, disabled }) => {
       
     } catch (err) {
       console.error('Error accessing camera:', err);
-      setError('Unable to access camera. Please check permissions or try uploading a photo instead.');
+      setError('Camera access denied. Please allow camera permissions and refresh the page, or upload a photo instead.');
     } finally {
       setIsLoading(false);
     }
@@ -133,6 +133,11 @@ const Camera = ({ onCapture, disabled }) => {
     }
   }, [stream]);
 
+  // Auto-start camera on mount
+  useEffect(() => {
+    startCamera();
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -178,7 +183,9 @@ const Camera = ({ onCapture, disabled }) => {
         ) : (
           <div className="camera-placeholder">
             <div className="camera-icon">📸</div>
-            <div>Take a photo or upload an image</div>
+            <div>
+              {isLoading ? 'Starting camera...' : 'Camera starting...'}
+            </div>
           </div>
         )}
       </div>
@@ -208,55 +215,31 @@ const Camera = ({ onCapture, disabled }) => {
               onClick={resetCamera}
               disabled={disabled}
             >
-              📷 Take Another
+              Take Another
             </button>
             <button
               className="camera-button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
             >
-              📁 Upload New
-            </button>
-          </>
-        ) : stream ? (
-          <>
-            <button
-              className="camera-button"
-              onClick={stopCamera}
-              disabled={disabled}
-            >
-              ❌ Stop Camera
-            </button>
-            <button
-              className="camera-button primary"
-              onClick={capturePhoto}
-              disabled={disabled}
-            >
-              📸 Capture Photo
+              Upload New
             </button>
           </>
         ) : (
           <>
             <button
-              className="camera-button"
-              onClick={startCamera}
-              disabled={disabled || isLoading}
+              className="camera-button primary"
+              onClick={capturePhoto}
+              disabled={disabled || !stream || !videoReady}
             >
-              {isLoading ? (
-                <>
-                  <span className="loading-spinner"></span>
-                  Starting Camera...
-                </>
-              ) : (
-                <>📹 Start Camera</>
-              )}
+              Take Photo
             </button>
             <button
               className="camera-button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
             >
-              📁 Upload Photo
+              Upload Photo
             </button>
           </>
         )}
