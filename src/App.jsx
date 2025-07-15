@@ -58,7 +58,7 @@ function App() {
           </p>
           
           {/* PWA Install Button */}
-          {isInstallable && (
+          {isInstallable && !isInstalled && (
             <div className="pwa-install-container">
               <button
                 className="glass-button pwa-install-button"
