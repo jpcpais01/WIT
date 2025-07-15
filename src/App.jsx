@@ -68,13 +68,6 @@ function App() {
               </button>
             </div>
           )}
-          
-          {isInstalled && (
-            <div className="pwa-installed-badge">
-              <span className="pwa-installed-icon">✅</span>
-              <span>App Installed</span>
-            </div>
-          )}
         </header>
 
         <Camera

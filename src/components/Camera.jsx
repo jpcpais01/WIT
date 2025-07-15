@@ -152,6 +152,7 @@ const Camera = ({ onCapture, disabled }) => {
           <>
             <video
               ref={videoRef}
+              className="camera-video"
               autoPlay
               playsInline
               muted
@@ -189,7 +190,7 @@ const Camera = ({ onCapture, disabled }) => {
         type="file"
         accept="image/*"
         onChange={handleFileUpload}
-        className="file-input"
+        className="file-upload-input"
         disabled={disabled}
       />
 
@@ -203,14 +204,14 @@ const Camera = ({ onCapture, disabled }) => {
         {capturedImage ? (
           <>
             <button
-              className="glass-button"
+              className="camera-button"
               onClick={resetCamera}
               disabled={disabled}
             >
               📷 Take Another
             </button>
             <button
-              className="glass-button"
+              className="camera-button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
             >
@@ -220,14 +221,14 @@ const Camera = ({ onCapture, disabled }) => {
         ) : stream ? (
           <>
             <button
-              className="glass-button"
+              className="camera-button"
               onClick={stopCamera}
               disabled={disabled}
             >
               ❌ Stop Camera
             </button>
             <button
-              className="glass-button primary"
+              className="camera-button primary"
               onClick={capturePhoto}
               disabled={disabled}
             >
@@ -237,7 +238,7 @@ const Camera = ({ onCapture, disabled }) => {
         ) : (
           <>
             <button
-              className="glass-button"
+              className="camera-button"
               onClick={startCamera}
               disabled={disabled || isLoading}
             >
@@ -251,7 +252,7 @@ const Camera = ({ onCapture, disabled }) => {
               )}
             </button>
             <button
-              className="glass-button"
+              className="camera-button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
             >
