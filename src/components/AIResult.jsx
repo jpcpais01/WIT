@@ -10,12 +10,10 @@ const AIResult = ({ result }) => {
     <div className="ai-result-container">
       {/* Header with title and confidence */}
       <div className="ai-result-header">
-        <div className="ai-result-title-section">
-          <h2 className="ai-result-title">{title}</h2>
-          <div className="ai-confidence-badge" style={{ color: getConfidenceColor(confidence) }}>
-            <span className="confidence-icon">{getConfidenceIcon(confidence)}</span>
-            <span className="confidence-text">{confidence} Confidence</span>
-          </div>
+        <h2 className="ai-result-title">{title}</h2>
+        <div className={`ai-confidence-badge ${confidence?.toLowerCase() || 'medium'}`}>
+          <span className="confidence-icon">{getConfidenceIcon(confidence)}</span>
+          <span className="confidence-text">{confidence} Confidence</span>
         </div>
       </div>
 
@@ -28,7 +26,9 @@ const AIResult = ({ result }) => {
               <span className="section-icon">📝</span>
               <h3 className="section-title">Description</h3>
             </div>
-            <p className="ai-result-description">{description}</p>
+            <div className="section-content">
+              <p className="ai-result-description">{description}</p>
+            </div>
           </div>
         )}
 
@@ -39,13 +39,15 @@ const AIResult = ({ result }) => {
               <span className="section-icon">✨</span>
               <h3 className="section-title">Key Features</h3>
             </div>
-            <div className="ai-result-features">
-              {features.map((feature, index) => (
-                <div key={index} className="feature-item">
-                  <div className="feature-bullet"></div>
-                  <span className="feature-text">{feature}</span>
-                </div>
-              ))}
+            <div className="section-content">
+              <div className="ai-result-features">
+                {features.map((feature, index) => (
+                  <div key={index} className="feature-item">
+                    <div className="feature-bullet"></div>
+                    <span className="feature-text">{feature}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -57,7 +59,9 @@ const AIResult = ({ result }) => {
               <span className="section-icon">🔍</span>
               <h3 className="section-title">Additional Context</h3>
             </div>
-            <p className="ai-result-context">{context}</p>
+            <div className="section-content">
+              <p className="ai-result-context">{context}</p>
+            </div>
           </div>
         )}
 

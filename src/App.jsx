@@ -51,24 +51,17 @@ function App() {
     <div className="app">
       <div className="neural-bg"></div>
       <div className="main-container">
-        <header className="header">
-          <h1 className="app-title" data-text="What is This?">What is This?</h1>
-          <p className="app-subtitle">
-            Next-level AI object identification using your camera
-          </p>
-          
-          {/* PWA Install Button */}
-          {isInstallable && !isInstalled && (
-            <div className="pwa-install-container">
-              <button
-                className="glass-button pwa-install-button"
-                onClick={installPWA}
-              >
-                📱 Install App
-              </button>
-            </div>
-          )}
-        </header>
+        {/* PWA Install Button */}
+        {isInstallable && !isInstalled && (
+          <div className="pwa-install-container">
+            <button
+              className="glass-button pwa-install-button"
+              onClick={installPWA}
+            >
+              📱 Install App
+            </button>
+          </div>
+        )}
 
         <Camera
           onCapture={handleImageCapture}
