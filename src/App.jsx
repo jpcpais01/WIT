@@ -11,6 +11,7 @@ function App() {
   const [result, setResult] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [resetKey, setResetKey] = useState(0);
   const { isInstallable, isInstalled, installPWA } = usePWAInstall();
 
   const handleImageCapture = (imageFile) => {
@@ -45,6 +46,7 @@ function App() {
     setAdditionalText('');
     setResult('');
     setError('');
+    setResetKey(prev => prev + 1); // Force Camera component to reset
   };
 
   return (
@@ -52,59 +54,58 @@ function App() {
       <div className="neural-bg"></div>
       <div className="main-container">
         {/* PWA Install Button */}
-        {isInstallable && !isInstalled && (
-          <div className="pwa-install-container">
-            <button
-              className="glass-button pwa-install-button"
-              onClick={installPWA}
-            >
-              📱 Install App
-            </button>
-          </div>
-        )}
+        <div className={`pwa-install-container ${isInstallable && !isInstalled ? 'show' : ''}`}>
+          <button
+            className="glass-button pwa-install-button"
+            onClick={installPWA}
+          >
+            📱 Install App
+          </button>
+        </div>
 
         <Camera
+          key={resetKey}
           onCapture={handleImageCapture}
           disabled={isLoading}
         />
 
-        <div className="input-section">
-          <input
-            type="text"
-            value={additionalText}
-            onChange={(e) => setAdditionalText(e.target.value)}
-            placeholder="Optional: Add context or ask a specific question about the image..."
-            className="text-input"
-            disabled={isLoading}
-          />
+        {capturedImage && (
+          <div className="input-section">
+            <input
+              type="text"
+              value={additionalText}
+              onChange={(e) => setAdditionalText(e.target.value)}
+              placeholder="Optional: Add context or ask a specific question about the image..."
+              className="text-input"
+              disabled={isLoading}
+            />
 
-          <div className="action-buttons">
-            <button
-              className="glass-button primary"
-              onClick={handleIdentifyObject}
-              disabled={!capturedImage || isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span className="loading-spinner"></span>
-                  Analyzing...
-                </>
-              ) : (
-                <>🔍 Identify Object</>
-              )}
-            </button>
-
-            {(capturedImage || result) && (
+            <div className="action-buttons">
               <button
-                className="glass-button"
+                className="glass-button primary"
+                onClick={handleIdentifyObject}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="loading-spinner"></span>
+                    Analyzing...
+                  </>
+                ) : (
+                  <>🔍 Identify Object</>
+                )}
+              </button>
+
+              <button
+                className="glass-button secondary"
                 onClick={handleReset}
                 disabled={isLoading}
               >
                 🔄 Start Over
               </button>
-            )}
+            </div>
           </div>
-        </div>
+        )}
 
         {error && (
           <div className="error-message">

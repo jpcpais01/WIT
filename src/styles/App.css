@@ -140,8 +140,20 @@ body {
 
 /* PWA Install Button */
 .pwa-install-container {
-  margin-bottom: var(--spacing-xl);
-  text-align: center;
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.pwa-install-container.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .pwa-install-button {
@@ -169,6 +181,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 400px;
+  transition: all 0.3s ease;
 }
 
 .camera-preview {
@@ -238,9 +251,10 @@ body {
 
 .camera-controls {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: var(--spacing-md);
 }
 
 .camera-button {
@@ -305,13 +319,38 @@ body {
 /* Input Section */
 .input-section {
   margin-bottom: var(--spacing-xl);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+  animation: slideInUp 0.4s ease-out;
+}
+
+.input-section:hover {
+  background: var(--glass-hover);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .text-input {
   width: 100%;
   padding: var(--spacing-md) var(--spacing-lg);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--border-radius-lg);
   color: var(--text-primary);
   font-size: 1rem;
@@ -337,9 +376,10 @@ body {
 
 .action-buttons {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: var(--spacing-md);
 }
 
 .glass-button {
@@ -397,12 +437,37 @@ body {
   border-color: var(--accent-blue);
   color: white;
   font-weight: 700;
+  animation: subtlePulse 3s ease-in-out infinite;
 }
 
 .glass-button.primary:hover {
   background: var(--gradient-secondary);
   border-color: var(--accent-cyan);
   box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+  animation: none;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+  }
+}
+
+.glass-button.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.glass-button.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--text-primary);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
 }
 
 .loading-spinner {
@@ -691,6 +756,7 @@ body {
   
   .action-buttons {
     flex-direction: column;
+    gap: var(--spacing-sm);
   }
   
   .glass-button {
@@ -700,11 +766,16 @@ body {
   
   .camera-controls {
     flex-direction: column;
+    gap: var(--spacing-sm);
   }
   
   .camera-button {
     width: 100%;
     min-width: unset;
+  }
+  
+  .input-section {
+    padding: var(--spacing-md);
   }
   
   .ai-result-header {
